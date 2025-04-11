@@ -4,7 +4,9 @@ import { cn } from "@/lib/utils";
 import { 
   MessageCircle, Video, 
   Settings, ChevronLeft, 
-  ChevronRight, Plus 
+  ChevronRight, Plus,
+  Users, Shield, Bell,
+  FileText, Search, Phone
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -41,6 +43,23 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  const handlePrivacyAI = () => {
+    toast({
+      title: "Privacy.ai activated",
+      description: "Now monitoring for unknown contacts",
+      variant: "default",
+    });
+  };
+
+  // Add additional navigation items
+  const navItems = [
+    { icon: Users, label: "Contacts", onClick: () => {} },
+    { icon: Bell, label: "Notifications", onClick: () => {} },
+    { icon: Search, label: "Search", onClick: () => {} },
+    { icon: Shield, label: "Privacy.ai", onClick: handlePrivacyAI, highlight: true },
+    { icon: Settings, label: "Settings", onClick: () => {} },
+  ];
+
   return (
     <div
       className={cn(
@@ -50,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!collapsed && (
-          <h1 className="text-xl font-bold">CrossMessage</h1>
+          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">CrossMessage</h1>
         )}
         <Button
           variant="ghost"
@@ -65,7 +84,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className="flex flex-col gap-2 p-2">
         <TooltipProvider>
           <div className={cn("mb-2", collapsed ? "px-2" : "px-4")}>
-            {!collapsed && <h2 className="text-sm font-semibold mb-2">Platforms</h2>}
+            {!collapsed && <h2 className="text-sm font-semibold mb-2 text-purple-300">Platforms</h2>}
           </div>
 
           <div className="space-y-1">
@@ -76,6 +95,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     variant={activePlatform?.id === platform.id ? "secondary" : "ghost"}
                     className={cn(
                       "w-full justify-start gap-2 hover:bg-sidebar-accent",
+                      activePlatform?.id === platform.id ? "bg-sidebar-accent/50" : "",
                       collapsed ? "justify-center px-2" : ""
                     )}
                     onClick={() => handlePlatformClick(platform)}
@@ -121,27 +141,33 @@ const Sidebar: React.FC<SidebarProps> = ({
         </TooltipProvider>
       </div>
 
-      <div className="mt-auto border-t border-sidebar-border p-2">
+      <div className="mt-4 border-t border-sidebar-border pt-4 p-2">
         <TooltipProvider>
-          <Tooltip delayDuration={300}>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                className={cn(
-                  "w-full justify-start gap-2 hover:bg-sidebar-accent",
-                  collapsed ? "justify-center px-2" : ""
-                )}
-              >
-                <Settings size={collapsed ? 24 : 20} />
-                {!collapsed && <span>Settings</span>}
-              </Button>
-            </TooltipTrigger>
-            {collapsed && (
-              <TooltipContent side="right">
-                <p>Settings</p>
-              </TooltipContent>
-            )}
-          </Tooltip>
+          {!collapsed && <h2 className="text-sm font-semibold px-4 mb-2 text-purple-300">Features</h2>}
+          
+          {navItems.map((item, index) => (
+            <Tooltip key={index} delayDuration={300}>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className={cn(
+                    "w-full justify-start gap-2 hover:bg-sidebar-accent my-1",
+                    item.highlight ? "bg-purple-700/20 hover:bg-purple-700/30" : "",
+                    collapsed ? "justify-center px-2" : ""
+                  )}
+                  onClick={item.onClick}
+                >
+                  <item.icon size={collapsed ? 24 : 20} className={item.highlight ? "text-purple-400" : ""} />
+                  {!collapsed && <span>{item.label}</span>}
+                </Button>
+              </TooltipTrigger>
+              {collapsed && (
+                <TooltipContent side="right">
+                  <p>{item.label}</p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          ))}
         </TooltipProvider>
       </div>
     </div>

@@ -5,9 +5,12 @@ import PlatformView from "@/components/PlatformView";
 import EmptyState from "@/components/EmptyState";
 import PlatformCards from "@/components/PlatformCards";
 import { usePlatforms } from "@/hooks/usePlatforms";
+import PrivacyAi from "@/components/PrivacyAi";
 
 const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [showPrivacyAi, setShowPrivacyAi] = useState(false);
+  
   const { 
     platforms, 
     activePlatform, 
@@ -17,6 +20,10 @@ const Index = () => {
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
+  };
+
+  const togglePrivacyAi = () => {
+    setShowPrivacyAi(!showPrivacyAi);
   };
 
   return (
@@ -29,7 +36,9 @@ const Index = () => {
       />
       
       <main className="flex-1 overflow-hidden">
-        {platforms.length === 0 ? (
+        {showPrivacyAi ? (
+          <PrivacyAi />
+        ) : platforms.length === 0 ? (
           <EmptyState onAddPlatform={handleOpenDialog} />
         ) : activePlatform ? (
           <PlatformView platform={activePlatform} />
