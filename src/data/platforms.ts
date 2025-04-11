@@ -4,7 +4,6 @@ import {
   Mail, MessageSquareDashed, 
   Video, Video as VideoIcon
 } from "lucide-react";
-import { Omit } from "react";
 import { Platform } from "@/types";
 
 export const platforms: Omit<Platform, "url">[] = [
