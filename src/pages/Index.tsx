@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import PlatformView from "@/components/PlatformView";
@@ -7,7 +8,7 @@ import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import { 
   MessageCircle, MessageSquare, Phone, 
-  Mail, Discord, Video, Video as VideoIcon
+  Mail, MessageSquareDashed, Video, Video as VideoIcon
 } from "lucide-react";
 
 const Index = () => {
@@ -27,7 +28,7 @@ const Index = () => {
             icon: platform.id === "custom" ? MessageSquare : 
                   platform.id === "whatsapp" ? Phone :
                   platform.id === "telegram" ? Mail :
-                  platform.id === "discord" ? Discord :
+                  platform.id === "discord" ? MessageSquareDashed :
                   platform.id === "zoom" ? VideoIcon :
                   platform.id === "google-meet" ? Video : MessageCircle
           };

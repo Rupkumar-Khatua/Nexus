@@ -3,7 +3,7 @@ import React from "react";
 import { 
   MessageCircle, Video, 
   MessageSquare, Phone,
-  Mail, Discord, 
+  Mail, MessageSquareDashed, 
   Video as VideoIcon, LucideIcon
 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -41,7 +41,7 @@ const platforms: Omit<Platform, "url">[] = [
   {
     id: "discord",
     name: "Discord",
-    icon: Discord,
+    icon: MessageSquareDashed,
     color: "messaging-purple",
     description: "Connect to Discord Web",
     type: "chat",
