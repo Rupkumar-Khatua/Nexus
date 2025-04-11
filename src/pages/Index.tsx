@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import PlatformView from "@/components/PlatformView";
@@ -6,39 +5,35 @@ import EmptyState from "@/components/EmptyState";
 import PlatformCards from "@/components/PlatformCards";
 import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
-import { useState as useLocalStorageState } from "react-use";
+import { 
+  MessageCircle, MessageSquare, Phone, 
+  Mail, Discord, Video, Video as VideoIcon
+} from "lucide-react";
 
 const Index = () => {
-  // Use localStorage to persist platforms between sessions
   const [platforms, setPlatforms] = useState<Platform[]>([]);
   const [activePlatform, setActivePlatform] = useState<Platform | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load platforms from localStorage on initial render
     const storedPlatforms = localStorage.getItem("crossmessage-platforms");
     if (storedPlatforms) {
       try {
         const parsedPlatforms = JSON.parse(storedPlatforms);
-        // Handle icon conversion from string to function
         const hydratedPlatforms = parsedPlatforms.map((platform: any) => {
-          // This is a simplified version - in a real app, we'd need a more robust solution
-          // for serializing/deserializing the icon components
           return {
             ...platform,
-            // We'll recreate the icon component during runtime
             icon: platform.id === "custom" ? MessageSquare : 
-                  platform.id === "whatsapp" ? BrandWhatsapp :
-                  platform.id === "telegram" ? BrandTelegram :
-                  platform.id === "discord" ? BrandDiscord :
-                  platform.id === "zoom" ? BrandZoom :
-                  platform.id === "google-meet" ? BrandGoogle : MessageCircle
+                  platform.id === "whatsapp" ? Phone :
+                  platform.id === "telegram" ? Mail :
+                  platform.id === "discord" ? Discord :
+                  platform.id === "zoom" ? VideoIcon :
+                  platform.id === "google-meet" ? Video : MessageCircle
           };
         });
         setPlatforms(hydratedPlatforms);
         
-        // Set the first platform as active if available
         if (hydratedPlatforms.length > 0) {
           setActivePlatform(hydratedPlatforms[0]);
         }
@@ -53,13 +48,10 @@ const Index = () => {
     }
   }, []);
 
-  // Save platforms to localStorage whenever they change
   useEffect(() => {
     if (platforms.length > 0) {
-      // Create a serializable version of platforms
       const serializablePlatforms = platforms.map(platform => ({
         ...platform,
-        // We'll just store the icon as a string identifier
         iconName: platform.id
       }));
       localStorage.setItem("crossmessage-platforms", JSON.stringify(serializablePlatforms));
@@ -67,7 +59,6 @@ const Index = () => {
   }, [platforms]);
 
   const handleAddPlatform = (platform: Platform) => {
-    // Check for duplicates
     const existingPlatform = platforms.find(p => 
       p.id === platform.id && 
       (platform.id !== "custom" || p.url === platform.url)
@@ -82,7 +73,6 @@ const Index = () => {
       return;
     }
     
-    // Add new platform
     const newPlatforms = [...platforms, platform];
     setPlatforms(newPlatforms);
     setActivePlatform(platform);
@@ -91,12 +81,6 @@ const Index = () => {
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
-
-  // Import all the icons to use in the app
-  const {
-    MessageCircle, MessageSquare, BrandWhatsapp, 
-    BrandTelegram, BrandDiscord, BrandZoom, BrandGoogle
-  } = require("lucide-react");
 
   return (
     <div className="flex h-screen overflow-hidden">

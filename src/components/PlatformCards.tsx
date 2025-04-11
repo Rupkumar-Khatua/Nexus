@@ -2,9 +2,9 @@
 import React from "react";
 import { 
   MessageCircle, Video, 
-  MessageSquare, BrandWhatsapp, 
-  BrandTelegram, BrandDiscord, 
-  BrandZoom, BrandGoogle 
+  MessageSquare, Phone,
+  Mail, Discord, 
+  Video as VideoIcon, LucideIcon
 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,7 @@ const platforms: Omit<Platform, "url">[] = [
   {
     id: "whatsapp",
     name: "WhatsApp",
-    icon: BrandWhatsapp,
+    icon: Phone,
     color: "messaging-green",
     description: "Connect to WhatsApp Web",
     type: "chat",
@@ -32,7 +32,7 @@ const platforms: Omit<Platform, "url">[] = [
   {
     id: "telegram",
     name: "Telegram",
-    icon: BrandTelegram,
+    icon: Mail,
     color: "messaging-blue",
     description: "Access Telegram Web",
     type: "chat",
@@ -41,7 +41,7 @@ const platforms: Omit<Platform, "url">[] = [
   {
     id: "discord",
     name: "Discord",
-    icon: BrandDiscord,
+    icon: Discord,
     color: "messaging-purple",
     description: "Connect to Discord Web",
     type: "chat",
@@ -50,7 +50,7 @@ const platforms: Omit<Platform, "url">[] = [
   {
     id: "zoom",
     name: "Zoom",
-    icon: BrandZoom,
+    icon: VideoIcon,
     color: "messaging-blue",
     description: "Join or host Zoom meetings",
     type: "video",
@@ -59,7 +59,7 @@ const platforms: Omit<Platform, "url">[] = [
   {
     id: "google-meet",
     name: "Google Meet",
-    icon: BrandGoogle,
+    icon: Video,
     color: "messaging-red",
     description: "Join Google Meet calls",
     type: "video",
