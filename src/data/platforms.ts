@@ -4,7 +4,8 @@ import {
   Mail, MessageSquareDashed, 
   Video, Video as VideoIcon,
   Instagram, Facebook, Linkedin,
-  Github, Twitter, Slack
+  Github, Twitter, Slack,
+  Signal
 } from "lucide-react";
 import { Platform } from "@/types";
 
@@ -15,6 +16,15 @@ export const platforms: Omit<Platform, "url">[] = [
     icon: Phone,
     color: "messaging-green",
     description: "Connect to WhatsApp Web",
+    type: "chat",
+    directUrl: true
+  },
+  {
+    id: "signal",
+    name: "Signal",
+    icon: Signal,
+    color: "messaging-blue",
+    description: "Access Signal Web",
     type: "chat",
     directUrl: true
   },
@@ -121,6 +131,7 @@ export const platforms: Omit<Platform, "url">[] = [
 
 export const platformUrls: Record<string, string> = {
   "whatsapp": "https://web.whatsapp.com/",
+  "signal": "https://signal.org/download/",
   "telegram": "https://web.telegram.org/",
   "discord": "https://discord.com/app",
   "slack": "https://slack.com/signin",

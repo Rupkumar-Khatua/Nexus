@@ -4,7 +4,9 @@ import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import { 
   MessageCircle, MessageSquare, Phone, 
-  Mail, MessageSquareDashed, Video, Video as VideoIcon
+  Mail, MessageSquareDashed, Video, Video as VideoIcon,
+  Signal, Instagram, Facebook, Linkedin,
+  Github, Twitter, Slack
 } from "lucide-react";
 
 export const usePlatforms = () => {
@@ -23,8 +25,15 @@ export const usePlatforms = () => {
             ...platform,
             icon: platform.id === "custom" ? MessageSquare : 
                   platform.id === "whatsapp" ? Phone :
+                  platform.id === "signal" ? Signal :
                   platform.id === "telegram" ? Mail :
                   platform.id === "discord" ? MessageSquareDashed :
+                  platform.id === "facebook" ? Facebook :
+                  platform.id === "instagram" ? Instagram :
+                  platform.id === "twitter" ? Twitter :
+                  platform.id === "linkedin" ? Linkedin :
+                  platform.id === "github" ? Github :
+                  platform.id === "slack" ? Slack :
                   platform.id === "zoom" ? VideoIcon :
                   platform.id === "google-meet" ? Video : MessageCircle
           };

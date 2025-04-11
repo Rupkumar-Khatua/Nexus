@@ -1,185 +1,117 @@
 
-import React, { useState } from "react";
+import React from "react";
 import { Platform } from "@/types";
+import { Badge } from "@/components/ui/badge";
 import { 
-  Mic, MicOff, Video, VideoOff, 
-  Phone, Share2, Users, MessageSquare,
-  Settings, Shield
+  Info, ExternalLink, Maximize2, 
+  Volume2, MicOff, Video, VideoOff, 
+  Phone, PhoneOff
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import PrivacyAi from "./PrivacyAi";
 
 interface PlatformViewProps {
   platform: Platform;
 }
 
 const PlatformView: React.FC<PlatformViewProps> = ({ platform }) => {
-  const [showPrivacyAi, setShowPrivacyAi] = useState(false);
-  const [micEnabled, setMicEnabled] = useState(true);
-  const [videoEnabled, setVideoEnabled] = useState(true);
-  const { toast } = useToast();
-
-  const isVideoCall = platform.type === "video";
-
-  const toggleMic = () => {
-    setMicEnabled(!micEnabled);
-    toast({
-      title: micEnabled ? "Microphone Off" : "Microphone On",
-      description: micEnabled ? "Your microphone has been muted" : "Your microphone has been unmuted",
-    });
+  const [fullscreen, setFullscreen] = React.useState(false);
+  const [showVideoControls, setShowVideoControls] = React.useState(platform.type === "video");
+  
+  const toggleFullscreen = () => {
+    const iframe = document.getElementById('platform-frame') as HTMLIFrameElement;
+    if (iframe) {
+      if (!document.fullscreenElement) {
+        iframe.requestFullscreen().catch(err => {
+          console.error(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+        setFullscreen(true);
+      } else {
+        document.exitFullscreen();
+        setFullscreen(false);
+      }
+    }
   };
-
-  const toggleVideo = () => {
-    setVideoEnabled(!videoEnabled);
-    toast({
-      title: videoEnabled ? "Camera Off" : "Camera On",
-      description: videoEnabled ? "Your camera has been turned off" : "Your camera has been turned on",
-    });
-  };
-
-  const handleEndCall = () => {
-    toast({
-      title: "Call Ended",
-      description: "The call has been terminated",
-      variant: "destructive",
-    });
-  };
-
-  const handleShareScreen = () => {
-    toast({
-      title: "Screen Sharing",
-      description: "Your screen is now being shared",
-    });
-  };
-
-  const handleShowParticipants = () => {
-    toast({
-      title: "Participants",
-      description: "Opening participants panel",
-    });
-  };
-
-  const togglePrivacyAi = () => {
-    setShowPrivacyAi(!showPrivacyAi);
-  };
-
-  if (showPrivacyAi) {
-    return (
-      <div className="h-full overflow-y-auto">
-        <div className="p-2">
-          <Button 
-            variant="outline" 
-            onClick={togglePrivacyAi}
-            className="mb-2"
-          >
-            Back to {platform.name}
-          </Button>
-        </div>
-        <PrivacyAi />
-      </div>
-    );
-  }
+  
+  React.useEffect(() => {
+    setShowVideoControls(platform.type === "video");
+  }, [platform]);
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex items-center justify-between p-4 border-b">
-        <div className="flex items-center gap-2">
-          <div className={`p-2 rounded-full bg-${platform.color}/20`}>
-            <platform.icon className={`h-5 w-5 text-${platform.color}`} />
+    <div className="flex flex-col h-full w-full">
+      <div className="flex items-center justify-between p-3 border-b bg-white/60 backdrop-blur-sm dark:bg-gray-900/60">
+        <div className="flex items-center space-x-2">
+          <div className={`text-${platform.color}`}>
+            <platform.icon size={24} />
           </div>
-          <h2 className="font-semibold">{platform.name}</h2>
+          <h2 className="font-medium text-xl">{platform.name}</h2>
+          <Badge variant="outline" className="ml-2">
+            {platform.type}
+          </Badge>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
+        <div className="flex items-center space-x-2">
+          {showVideoControls && (
+            <div className="flex gap-2 bg-sidebar/10 p-1 px-2 rounded-full mr-2">
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-8 w-8 rounded-full"
+              >
+                <Volume2 size={16} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-8 w-8 rounded-full"
+              >
+                <MicOff size={16} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-8 w-8 rounded-full"
+              >
+                <VideoOff size={16} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="h-8 w-8 rounded-full bg-red-500/10 text-red-500 hover:bg-red-500/20 hover:text-red-600"
+              >
+                <PhoneOff size={16} />
+              </Button>
+            </div>
+          )}
+          <Button 
+            variant="ghost" 
             size="icon"
-            onClick={togglePrivacyAi}
-            className="relative"
+            onClick={toggleFullscreen}
           >
-            <Shield className="h-5 w-5 text-purple-500" />
+            <Maximize2 size={18} />
           </Button>
-          <Button
-            variant="outline"
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => window.open(platform.url, '_blank')}
+          >
+            <ExternalLink size={18} />
+          </Button>
+          <Button 
+            variant="ghost" 
             size="icon"
           >
-            <Settings className="h-5 w-5" />
+            <Info size={18} />
           </Button>
         </div>
       </div>
-      
-      <div className="flex-grow relative">
-        {platform.url ? (
-          <iframe 
-            src={platform.url} 
-            title={platform.name}
-            className="platform-frame"
-            sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
-            allow="camera; microphone; clipboard-read; clipboard-write; display-capture"
-          />
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-muted-foreground">No URL configured for this platform</p>
-          </div>
-        )}
+      <div className="flex-1 relative">
+        <iframe
+          id="platform-frame"
+          src={platform.url}
+          className="platform-frame"
+          title={platform.name}
+          allow="camera; microphone; display-capture; autoplay; clipboard-write; fullscreen"
+        />
       </div>
-      
-      {isVideoCall && (
-        <div className="p-4 bg-background/80 backdrop-blur border-t flex items-center justify-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className={`rounded-full ${micEnabled ? 'bg-accent/20' : 'bg-destructive/20'}`}
-            onClick={toggleMic}
-          >
-            {micEnabled ? <Mic className="h-5 w-5" /> : <MicOff className="h-5 w-5 text-destructive" />}
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="icon"
-            className={`rounded-full ${videoEnabled ? 'bg-accent/20' : 'bg-destructive/20'}`}
-            onClick={toggleVideo}
-          >
-            {videoEnabled ? <Video className="h-5 w-5" /> : <VideoOff className="h-5 w-5 text-destructive" />}
-          </Button>
-          
-          <Button
-            variant="destructive"
-            size="icon"
-            className="rounded-full"
-            onClick={handleEndCall}
-          >
-            <Phone className="h-5 w-5 rotate-135" />
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-accent/20"
-            onClick={handleShareScreen}
-          >
-            <Share2 className="h-5 w-5" />
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-accent/20"
-            onClick={handleShowParticipants}
-          >
-            <Users className="h-5 w-5" />
-          </Button>
-          
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-accent/20"
-          >
-            <MessageSquare className="h-5 w-5" />
-          </Button>
-        </div>
-      )}
     </div>
   );
 };

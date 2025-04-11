@@ -27,7 +27,7 @@ const Index = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20">
       <Sidebar 
         platforms={platforms}
         activePlatform={activePlatform}
@@ -35,13 +35,15 @@ const Index = () => {
         onAddPlatform={handleOpenDialog}
       />
       
-      <main className="flex-1 overflow-hidden">
+      <main className="flex-1 h-full overflow-hidden">
         {showPrivacyAi ? (
           <PrivacyAi />
         ) : platforms.length === 0 ? (
           <EmptyState onAddPlatform={handleOpenDialog} />
         ) : activePlatform ? (
-          <PlatformView platform={activePlatform} />
+          <div className="h-full w-full">
+            <PlatformView platform={activePlatform} />
+          </div>
         ) : (
           <div className="flex items-center justify-center h-full">
             <p className="text-lg text-muted-foreground">
