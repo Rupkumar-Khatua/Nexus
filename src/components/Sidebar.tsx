@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import NexusLogo from "./NexusLogo";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   platforms: Platform[];
@@ -51,7 +52,10 @@ const Sidebar: React.FC<SidebarProps> = ({
     });
   };
 
-  // Add additional navigation items
+  const goToHome = () => {
+    setActivePlatform(null);
+  };
+
   const navItems = [
     { icon: Users, label: "Contacts", onClick: () => {} },
     { icon: Bell, label: "Notifications", onClick: () => {} },
@@ -69,12 +73,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!collapsed && (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={goToHome}>
             <NexusLogo size={32} />
             <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">Nexus</h1>
           </div>
         )}
-        {collapsed && <NexusLogo size={24} className="mx-auto" />}
+        {collapsed && <NexusLogo size={24} className="mx-auto cursor-pointer" onClick={goToHome} />}
         <Button
           variant="ghost"
           size="icon"

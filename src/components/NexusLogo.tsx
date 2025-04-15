@@ -4,11 +4,20 @@ import React from "react";
 interface NexusLogoProps {
   size?: number;
   className?: string;
+  onClick?: () => void;
 }
 
-const NexusLogo: React.FC<NexusLogoProps> = ({ size = 40, className = "" }) => {
+const NexusLogo: React.FC<NexusLogoProps> = ({ 
+  size = 40, 
+  className = "",
+  onClick
+}) => {
   return (
-    <div className={`relative ${className}`} style={{ width: size, height: size }}>
+    <div 
+      className={`relative ${className} ${onClick ? "cursor-pointer" : ""}`} 
+      style={{ width: size, height: size }}
+      onClick={onClick}
+    >
       <svg 
         width={size} 
         height={size} 

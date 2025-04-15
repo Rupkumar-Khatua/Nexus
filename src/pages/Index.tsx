@@ -43,24 +43,22 @@ const Index = () => {
         onAddPlatform={handleOpenDialog}
       />
       
-      <main className="flex-1 h-full">
-        <ScrollArea className="h-full w-full">
-          {showPrivacyAi ? (
-            <PrivacyAi />
-          ) : platforms.length === 0 ? (
-            <EmptyState onAddPlatform={handleOpenDialog} />
-          ) : activePlatform ? (
-            <div className="h-full w-full">
-              <PlatformView platform={activePlatform} />
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <p className="text-lg text-muted-foreground">
-                Select a platform from the sidebar
-              </p>
-            </div>
-          )}
-        </ScrollArea>
+      <main className="flex-1 h-full overflow-auto">
+        {showPrivacyAi ? (
+          <PrivacyAi />
+        ) : platforms.length === 0 ? (
+          <EmptyState onAddPlatform={handleOpenDialog} />
+        ) : activePlatform ? (
+          <div className="h-full w-full">
+            <PlatformView platform={activePlatform} />
+          </div>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-lg text-muted-foreground">
+              Select a platform from the sidebar
+            </p>
+          </div>
+        )}
       </main>
       
       <PlatformCards 

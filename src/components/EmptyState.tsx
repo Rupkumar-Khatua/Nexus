@@ -1,11 +1,8 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { 
-  MessageCircle, Video, 
-  MessagesSquare, Share2 
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { PlusCircle } from "lucide-react";
+import NexusLogo from "./NexusLogo";
 
 interface EmptyStateProps {
   onAddPlatform: () => void;
@@ -13,58 +10,45 @@ interface EmptyStateProps {
 
 const EmptyState: React.FC<EmptyStateProps> = ({ onAddPlatform }) => {
   return (
-    <div className="flex flex-col items-center justify-center h-full p-6 text-center max-w-3xl mx-auto animate-fade-in">
-      <div className="mb-8 flex space-x-3">
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center justify-center animate-ping opacity-20">
-            <MessagesSquare size={64} className="text-messaging-blue" />
-          </div>
-          <MessageCircle size={64} className="text-messaging-blue relative" />
+    <div className="flex flex-col items-center justify-center h-screen p-6 text-center">
+      <div className="bg-gradient-to-br from-purple-500/10 to-indigo-500/10 p-8 rounded-xl mb-6 animate-float">
+        <NexusLogo size={96} className="mx-auto mb-6" />
+        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-2">
+          Welcome to Nexus
+        </h1>
+        <p className="text-xl text-muted-foreground max-w-lg mb-8">
+          Connect all your messaging platforms in one unified experience
+        </p>
+        <Button
+          onClick={onAddPlatform}
+          size="lg"
+          className="mt-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+        >
+          <PlusCircle className="mr-2" />
+          Add Your First Platform
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mt-8">
+        <div className="feature-card p-6">
+          <h3 className="text-lg font-semibold mb-2">All Your Messages</h3>
+          <p className="text-muted-foreground">
+            Connect WhatsApp, Telegram, Discord, and more in a single dashboard
+          </p>
         </div>
-        <Video size={64} className="text-messaging-purple" />
-        <Share2 size={64} className="text-messaging-green" />
+        <div className="feature-card p-6">
+          <h3 className="text-lg font-semibold mb-2">Video Calls</h3>
+          <p className="text-muted-foreground">
+            Join Zoom and Google Meet calls without switching apps
+          </p>
+        </div>
+        <div className="feature-card p-6">
+          <h3 className="text-lg font-semibold mb-2">Privacy Protection</h3>
+          <p className="text-muted-foreground">
+            Get alerts for messages from unknown contacts with Privacy.ai
+          </p>
+        </div>
       </div>
-      
-      <h1 className="text-4xl font-bold mb-4">Welcome to CrossMessage</h1>
-      <p className="text-xl text-muted-foreground mb-8">
-        Connect all your messaging platforms in one place, without creating new accounts or downloading apps.
-      </p>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 w-full">
-        {[
-          {
-            title: "Chat Integration",
-            description: "Access WhatsApp, Telegram, Discord and more from one interface",
-            icon: MessageCircle,
-            color: "text-messaging-blue"
-          },
-          {
-            title: "Video Calls",
-            description: "Join Zoom, Google Meet and other video calls directly",
-            icon: Video,
-            color: "text-messaging-purple"
-          },
-          {
-            title: "No Downloads",
-            description: "Everything works in your browser - no installs needed",
-            icon: Share2,
-            color: "text-messaging-green"
-          }
-        ].map((feature, index) => (
-          <div 
-            key={index} 
-            className="flex flex-col items-center p-6 bg-card rounded-lg border shadow-sm"
-          >
-            <feature.icon size={40} className={cn("mb-4", feature.color)} />
-            <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-            <p className="text-muted-foreground text-sm">{feature.description}</p>
-          </div>
-        ))}
-      </div>
-      
-      <Button size="lg" onClick={onAddPlatform}>
-        Add Your First Platform
-      </Button>
     </div>
   );
 };
