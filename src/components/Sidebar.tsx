@@ -1,4 +1,3 @@
-
 import React from "react";
 import { cn } from "@/lib/utils";
 import { 
@@ -12,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
+import NexusLogo from "./NexusLogo";
 
 interface SidebarProps {
   platforms: Platform[];
@@ -69,8 +69,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!collapsed && (
-          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">CrossMessage</h1>
+          <div className="flex items-center gap-2">
+            <NexusLogo size={32} />
+            <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">Nexus</h1>
+          </div>
         )}
+        {collapsed && <NexusLogo size={24} className="mx-auto" />}
         <Button
           variant="ghost"
           size="icon"

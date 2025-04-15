@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
+    --background: 260 30% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -91,7 +91,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
   }
 }
 
@@ -130,5 +130,30 @@
 
   .glass-morphism {
     @apply backdrop-blur-md bg-white/10 border border-white/20 shadow-lg;
+  }
+  
+  /* Neopop-inspired styles */
+  .neopop-card {
+    @apply bg-white border-2 border-black rounded-lg shadow-neopop transition-all duration-200;
+  }
+  
+  .neopop-card:hover {
+    @apply transform -translate-y-1 shadow-neopop-lg;
+  }
+  
+  .neopop-button {
+    @apply bg-white border-2 border-black rounded-md px-4 py-2 shadow-neopop-sm transition-all duration-200;
+  }
+  
+  .neopop-button:hover {
+    @apply transform -translate-y-1 shadow-neopop;
+  }
+  
+  .neopop-gradient {
+    background: linear-gradient(135deg, #A66FF0 0%, #FC5A8D 100%);
+  }
+  
+  .neopop-gradient-soft {
+    background: linear-gradient(135deg, rgba(166,111,240,0.2) 0%, rgba(252,90,141,0.2) 100%);
   }
 }

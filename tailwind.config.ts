@@ -69,6 +69,17 @@ export default {
 					purple: '#8E24AA',
 					red: '#E53935',
 					yellow: '#FFB300'
+				},
+				neopop: {
+					'background': '#151525',
+					'card': '#1D1D32',
+					'border': '#292950',
+					'purple': '#A66FF0',
+					'pink': '#FC5A8D',
+					'blue': '#4A9DFF',
+					'green': '#2AC97A',
+					'yellow': '#FFC107',
+					'red': '#FF5757',
 				}
 			},
 			borderRadius: {
@@ -100,13 +111,30 @@ export default {
 				'slide-in': {
 					from: { transform: 'translateX(-100%)' },
 					to: { transform: 'translateX(0)' }
+				},
+				'pulse-soft': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.8' }
+				},
+				'float': {
+					'0%, 100%': { transform: 'translateY(0)' },
+					'50%': { transform: 'translateY(-8px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-out',
-				'slide-in': 'slide-in 0.3s ease-out'
+				'slide-in': 'slide-in 0.3s ease-out',
+				'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
+				'float': 'float 6s ease-in-out infinite'
+			},
+			boxShadow: {
+				'neopop': '4px 4px 0 0 rgba(0, 0, 0, 0.6)',
+				'neopop-sm': '2px 2px 0 0 rgba(0, 0, 0, 0.6)',
+				'neopop-lg': '8px 8px 0 0 rgba(0, 0, 0, 0.6)',
+				'neopop-xl': '12px 12px 0 0 rgba(0, 0, 0, 0.6)',
+				'neopop-colored': '4px 4px 0 0 var(--tw-shadow-color)',
 			}
 		}
 	},
