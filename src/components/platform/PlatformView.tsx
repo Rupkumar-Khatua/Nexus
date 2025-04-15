@@ -1,9 +1,9 @@
 
 import React, { useState } from "react";
 import { Platform } from "@/types";
-import PlatformHeader from "./platform/PlatformHeader";
-import PlatformFrame from "./platform/PlatformFrame";
-import QuickAction from "./platform/QuickAction";
+import PlatformHeader from "./PlatformHeader";
+import PlatformFrame from "./PlatformFrame";
+import QuickAction from "./QuickAction";
 
 interface PlatformViewProps {
   platform: Platform;
