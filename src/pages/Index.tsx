@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import PlatformView from "@/components/platform/PlatformView";
@@ -60,13 +61,17 @@ const Index = () => {
         navigateToHome={navigateToHome}
       />
       
-      <main className="flex-1 h-full overflow-auto">
+      <main className="flex-1 h-full overflow-hidden">
         {showPrivacyAi ? (
-          <PrivacyAi />
+          <div className="h-full overflow-hidden">
+            <PrivacyAi />
+          </div>
         ) : showHome || platforms.length === 0 ? (
-          <EmptyState onAddPlatform={handleOpenDialog} />
+          <ScrollArea className="h-full w-full">
+            <EmptyState onAddPlatform={handleOpenDialog} />
+          </ScrollArea>
         ) : activePlatform ? (
-          <div className="h-full w-full">
+          <div className="h-full w-full overflow-hidden">
             <PlatformView platform={activePlatform} />
           </div>
         ) : (
