@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
-import PlatformView from "@/components/PlatformView";
+import PlatformView from "@/components/platform/PlatformView";
 import EmptyState from "@/components/EmptyState";
 import PlatformCards from "@/components/PlatformCards";
 import { usePlatforms } from "@/hooks/usePlatforms";
@@ -39,14 +38,12 @@ const Index = () => {
     });
   };
 
-  // Fix scrolling issue by removing any overflow: hidden when dialog closes
   useEffect(() => {
     if (!dialogOpen) {
       document.body.style.overflow = '';
     }
   }, [dialogOpen]);
 
-  // Reset showHome when activePlatform changes
   useEffect(() => {
     if (activePlatform) {
       setShowHome(false);
