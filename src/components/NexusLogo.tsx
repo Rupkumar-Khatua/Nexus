@@ -5,18 +5,22 @@ interface NexusLogoProps {
   size?: number;
   className?: string;
   onClick?: () => void;
+  navigateToHome?: boolean;
 }
 
 const NexusLogo: React.FC<NexusLogoProps> = ({ 
   size = 40, 
   className = "",
-  onClick
+  onClick,
+  navigateToHome = false
 }) => {
   return (
     <div 
-      className={`relative ${className} ${onClick ? "cursor-pointer" : ""}`} 
+      className={`relative ${className} ${onClick || navigateToHome ? "cursor-pointer" : ""}`} 
       style={{ width: size, height: size }}
       onClick={onClick}
+      role="button"
+      aria-label="Nexus Logo"
     >
       <svg 
         width={size} 

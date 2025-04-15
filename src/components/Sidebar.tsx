@@ -19,13 +19,15 @@ interface SidebarProps {
   activePlatform: Platform | null;
   setActivePlatform: (platform: Platform | null) => void;
   onAddPlatform: () => void;
+  navigateToHome: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   platforms,
   activePlatform,
   setActivePlatform,
-  onAddPlatform
+  onAddPlatform,
+  navigateToHome
 }) => {
   const [collapsed, setCollapsed] = React.useState(false);
   const { toast } = useToast();
@@ -52,10 +54,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     });
   };
 
-  const goToHome = () => {
-    setActivePlatform(null);
-  };
-
   const navItems = [
     { icon: Users, label: "Contacts", onClick: () => {} },
     { icon: Bell, label: "Notifications", onClick: () => {} },
@@ -73,12 +71,12 @@ const Sidebar: React.FC<SidebarProps> = ({
     >
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
         {!collapsed && (
-          <div className="flex items-center gap-2 cursor-pointer" onClick={goToHome}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={navigateToHome}>
             <NexusLogo size={32} />
             <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500">Nexus</h1>
           </div>
         )}
-        {collapsed && <NexusLogo size={24} className="mx-auto cursor-pointer" onClick={goToHome} />}
+        {collapsed && <NexusLogo size={24} className="mx-auto cursor-pointer" onClick={navigateToHome} />}
         <Button
           variant="ghost"
           size="icon"

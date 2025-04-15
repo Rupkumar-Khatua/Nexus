@@ -7,10 +7,13 @@ import PlatformCards from "@/components/PlatformCards";
 import { usePlatforms } from "@/hooks/usePlatforms";
 import PrivacyAi from "@/components/PrivacyAi";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showPrivacyAi, setShowPrivacyAi] = useState(false);
+  const [showHome, setShowHome] = useState(false);
+  const { toast } = useToast();
   
   const { 
     platforms, 
@@ -27,12 +30,28 @@ const Index = () => {
     setShowPrivacyAi(!showPrivacyAi);
   };
 
+  const navigateToHome = () => {
+    setActivePlatform(null);
+    setShowHome(true);
+    toast({
+      title: "Welcome to Nexus",
+      description: "Your unified platform hub",
+    });
+  };
+
   // Fix scrolling issue by removing any overflow: hidden when dialog closes
   useEffect(() => {
     if (!dialogOpen) {
       document.body.style.overflow = '';
     }
   }, [dialogOpen]);
+
+  // Reset showHome when activePlatform changes
+  useEffect(() => {
+    if (activePlatform) {
+      setShowHome(false);
+    }
+  }, [activePlatform]);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/20 dark:to-indigo-950/20">
@@ -41,12 +60,13 @@ const Index = () => {
         activePlatform={activePlatform}
         setActivePlatform={setActivePlatform}
         onAddPlatform={handleOpenDialog}
+        navigateToHome={navigateToHome}
       />
       
       <main className="flex-1 h-full overflow-auto">
         {showPrivacyAi ? (
           <PrivacyAi />
-        ) : platforms.length === 0 ? (
+        ) : showHome || platforms.length === 0 ? (
           <EmptyState onAddPlatform={handleOpenDialog} />
         ) : activePlatform ? (
           <div className="h-full w-full">
