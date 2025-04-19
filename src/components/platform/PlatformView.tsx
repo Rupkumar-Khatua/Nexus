@@ -2,8 +2,7 @@
 import React, { useState } from "react";
 import { Platform } from "@/types";
 import { Button } from "@/components/ui/button";
-import { ChevronUp, X } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ChevronUp, X, RotateCcw, Maximize2 } from "lucide-react";
 import PlatformHeader from "./PlatformHeader";
 import PlatformFrame from "./PlatformFrame";
 import QuickAction from "./QuickAction";
@@ -22,10 +21,10 @@ const PlatformView: React.FC<PlatformViewProps> = ({ platform }) => {
   }, [platform]);
   
   const toggleFullscreen = () => {
-    const iframe = document.getElementById('platform-frame') as HTMLIFrameElement;
-    if (iframe) {
+    const container = document.querySelector('.platform-frame-container') as HTMLElement;
+    if (container) {
       if (!document.fullscreenElement) {
-        iframe.requestFullscreen().catch(err => {
+        container.requestFullscreen().catch(err => {
           console.error(`Error attempting to enable fullscreen: ${err.message}`);
         });
       } else {
@@ -34,7 +33,8 @@ const PlatformView: React.FC<PlatformViewProps> = ({ platform }) => {
     }
   };
   
-  const reloadIframe = () => {
+  const reloadPlatform = () => {
+    // This will trigger a reload of the platform frame
     const iframe = document.getElementById('platform-frame') as HTMLIFrameElement;
     if (iframe) {
       iframe.src = platform.url;
@@ -60,7 +60,23 @@ const PlatformView: React.FC<PlatformViewProps> = ({ platform }) => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={reloadIframe}
+            onClick={reloadPlatform}
+            className="text-sidebar-foreground hover:bg-sidebar-accent"
+          >
+            <RotateCcw size={18} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleFullscreen}
+            className="text-sidebar-foreground hover:bg-sidebar-accent"
+          >
+            <Maximize2 size={18} />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {}} // Close platform view
             className="text-sidebar-foreground hover:bg-sidebar-accent"
           >
             <X />
@@ -74,10 +90,10 @@ const PlatformView: React.FC<PlatformViewProps> = ({ platform }) => {
             platform={platform} 
             showVideoControls={showVideoControls}
             toggleFullscreen={toggleFullscreen}
-            reloadIframe={reloadIframe}
+            reloadIframe={reloadPlatform}
           />
           
-          <div className="flex-1 relative overflow-hidden">
+          <div className="flex-1 relative overflow-hidden platform-frame-container">
             <PlatformFrame platform={platform} />
           </div>
           

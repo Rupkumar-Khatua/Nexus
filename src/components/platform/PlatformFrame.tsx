@@ -4,6 +4,7 @@ import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import PlatformLoading from "./PlatformLoading";
 import PlatformError from "./PlatformError";
+import PlatformAPIView from "./PlatformAPIView";
 
 interface PlatformFrameProps {
   platform: Platform;
@@ -12,30 +13,32 @@ interface PlatformFrameProps {
 const PlatformFrame: React.FC<PlatformFrameProps> = ({ platform }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [useAPIIntegration, setUseAPIIntegration] = useState(false);
   const { toast } = useToast();
 
   // Reset state when platform changes
   useEffect(() => {
     setIsLoading(true);
     setHasError(false);
+    setUseAPIIntegration(false);
   }, [platform]);
 
-  // Handle platforms known to block iframe embedding
+  // Check if platform is supported with API integration
   useEffect(() => {
-    const knownBlockedPlatforms = [
+    const apiSupportedPlatforms = [
       "whatsapp", "telegram", "signal", "discord", 
       "facebook", "instagram", "linkedin"
     ];
     
-    if (knownBlockedPlatforms.includes(platform.id)) {
-      // We'll show error state immediately for known blocked platforms
-      setIsLoading(false);
-      setHasError(true);
-      toast({
-        title: "Direct embedding restricted",
-        description: `${platform.name} requires opening in a new tab`,
-        variant: "default"
-      });
+    if (apiSupportedPlatforms.includes(platform.id)) {
+      // For API supported platforms, show loading state briefly then try API integration
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        // We'll show error state until the user chooses to continue with API integration
+        setHasError(true);
+      }, 1500);
+      
+      return () => clearTimeout(timer);
     }
   }, [platform.id, platform.name, toast]);
 
@@ -43,8 +46,7 @@ const PlatformFrame: React.FC<PlatformFrameProps> = ({ platform }) => {
     setIsLoading(false);
     setHasError(false);
     
-    // Even if the iframe loads, it might be showing an error page within the iframe
-    // We'll check this with a timeout to see if a connection error message appears
+    // Check if iframe loaded successfully
     setTimeout(() => {
       const iframe = document.getElementById('platform-frame') as HTMLIFrameElement;
       if (iframe) {
@@ -60,6 +62,7 @@ const PlatformFrame: React.FC<PlatformFrameProps> = ({ platform }) => {
         } catch (e) {
           // If we can't access the iframe content, it's likely blocked
           console.log("Cross-origin iframe access blocked");
+          setHasError(true);
         }
       }
     }, 1000);
@@ -68,32 +71,26 @@ const PlatformFrame: React.FC<PlatformFrameProps> = ({ platform }) => {
   const handleIframeError = () => {
     setIsLoading(false);
     setHasError(true);
-    toast({
-      title: "Connection Restricted",
-      description: `${platform.name} requires opening in a new tab`,
-      variant: "default"
-    });
   };
   
   const reloadIframe = () => {
-    const knownBlockedPlatforms = [
-      "whatsapp", "telegram", "signal", "discord", 
-      "facebook", "instagram", "linkedin"
-    ];
-    
-    if (knownBlockedPlatforms.includes(platform.id)) {
-      // For known blocked platforms, just open in a new tab
-      window.open(platform.url, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    
-    // For other platforms, try reloading
     setIsLoading(true);
     setHasError(false);
+    setUseAPIIntegration(false);
     const iframe = document.getElementById('platform-frame') as HTMLIFrameElement;
     if (iframe) {
       iframe.src = platform.url;
     }
+  };
+
+  const continueWithAPIIntegration = () => {
+    setUseAPIIntegration(true);
+    setHasError(false);
+    toast({
+      title: "API Integration Activated",
+      description: `${platform.name} integration initialized`,
+      variant: "default"
+    });
   };
 
   return (
@@ -105,10 +102,15 @@ const PlatformFrame: React.FC<PlatformFrameProps> = ({ platform }) => {
           platformName={platform.name} 
           platformUrl={platform.url} 
           onRetry={reloadIframe} 
+          onContinueAnyway={continueWithAPIIntegration}
         />
       )}
       
-      {!hasError && (
+      {useAPIIntegration && (
+        <PlatformAPIView platform={platform} />
+      )}
+      
+      {!hasError && !useAPIIntegration && (
         <iframe
           id="platform-frame"
           src={platform.url}
