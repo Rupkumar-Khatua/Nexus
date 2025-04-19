@@ -164,6 +164,10 @@
     background: linear-gradient(135deg, rgba(166,111,240,0.2) 0%, rgba(252,90,141,0.2) 100%);
   }
 
+  .sidebar-content {
+    @apply flex-1 overflow-y-auto;
+  }
+
   .platform-collapsible {
     @apply overflow-hidden transition-all duration-300;
   }
