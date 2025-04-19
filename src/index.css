@@ -163,4 +163,16 @@
   .neopop-gradient-soft {
     background: linear-gradient(135deg, rgba(166,111,240,0.2) 0%, rgba(252,90,141,0.2) 100%);
   }
+
+  .platform-collapsible {
+    @apply overflow-hidden transition-all duration-300;
+  }
+  
+  .platform-collapsible[data-state='open'] {
+    @apply animate-accordion-down;
+  }
+  
+  .platform-collapsible[data-state='closed'] {
+    @apply animate-accordion-up;
+  }
 }

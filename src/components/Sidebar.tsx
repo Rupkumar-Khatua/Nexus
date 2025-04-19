@@ -1,3 +1,4 @@
+
 import React from "react";
 import { cn } from "@/lib/utils";
 import { 
@@ -5,7 +6,8 @@ import {
   Settings, ChevronLeft, 
   ChevronRight, Plus,
   Users, Shield, Bell,
-  FileText, Search, Phone
+  FileText, Search, Phone,
+  ChevronUp
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -13,6 +15,7 @@ import { Platform } from "@/types";
 import { useToast } from "@/components/ui/use-toast";
 import NexusLogo from "./NexusLogo";
 import { Link } from "react-router-dom";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface SidebarProps {
   platforms: Platform[];
@@ -30,10 +33,18 @@ const Sidebar: React.FC<SidebarProps> = ({
   navigateToHome
 }) => {
   const [collapsed, setCollapsed] = React.useState(false);
+  const [collapsedPlatforms, setCollapsedPlatforms] = React.useState<{[key: string]: boolean}>({});
   const { toast } = useToast();
 
   const toggleSidebar = () => {
     setCollapsed(!collapsed);
+  };
+
+  const togglePlatform = (platformId: string) => {
+    setCollapsedPlatforms(prev => ({
+      ...prev,
+      [platformId]: !prev[platformId]
+    }));
   };
 
   const handlePlatformClick = (platform: Platform) => {
@@ -95,30 +106,61 @@ const Sidebar: React.FC<SidebarProps> = ({
 
           <div className="space-y-1">
             {platforms.map((platform) => (
-              <Tooltip key={platform.id} delayDuration={300}>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant={activePlatform?.id === platform.id ? "secondary" : "ghost"}
-                    className={cn(
-                      "w-full justify-start gap-2 hover:bg-sidebar-accent",
-                      activePlatform?.id === platform.id ? "bg-sidebar-accent/50" : "",
-                      collapsed ? "justify-center px-2" : ""
+              <Collapsible key={platform.id}>
+                <div className="flex items-center justify-between gap-1">
+                  <Tooltip delayDuration={300}>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={activePlatform?.id === platform.id ? "secondary" : "ghost"}
+                        className={cn(
+                          "flex-1 justify-start gap-2 hover:bg-sidebar-accent",
+                          activePlatform?.id === platform.id ? "bg-sidebar-accent/50" : "",
+                          collapsed ? "justify-center px-2" : ""
+                        )}
+                        onClick={() => handlePlatformClick(platform)}
+                      >
+                        <platform.icon
+                          size={collapsed ? 24 : 20}
+                          className={cn("flex-shrink-0", `text-${platform.color}`)}
+                        />
+                        {!collapsed && <span>{platform.name}</span>}
+                      </Button>
+                    </TooltipTrigger>
+                    {collapsed && (
+                      <TooltipContent side="right">
+                        <p>{platform.name}</p>
+                      </TooltipContent>
                     )}
-                    onClick={() => handlePlatformClick(platform)}
-                  >
-                    <platform.icon
-                      size={collapsed ? 24 : 20}
-                      className={cn("flex-shrink-0", `text-${platform.color}`)}
-                    />
-                    {!collapsed && <span>{platform.name}</span>}
-                  </Button>
-                </TooltipTrigger>
-                {collapsed && (
-                  <TooltipContent side="right">
-                    <p>{platform.name}</p>
-                  </TooltipContent>
+                  </Tooltip>
+                  
+                  {!collapsed && (
+                    <CollapsibleTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8"
+                        onClick={() => togglePlatform(platform.id)}
+                      >
+                        <ChevronUp 
+                          className={cn(
+                            "h-4 w-4 transition-transform duration-200",
+                            collapsedPlatforms[platform.id] ? "rotate-180" : ""
+                          )}
+                        />
+                      </Button>
+                    </CollapsibleTrigger>
+                  )}
+                </div>
+                
+                {!collapsed && (
+                  <CollapsibleContent className="pl-10 py-2">
+                    <div className="space-y-1 text-sm text-sidebar-foreground/70">
+                      <div>Status: Active</div>
+                      <div>Type: {platform.type}</div>
+                    </div>
+                  </CollapsibleContent>
                 )}
-              </Tooltip>
+              </Collapsible>
             ))}
           </div>
 
