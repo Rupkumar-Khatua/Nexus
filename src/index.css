@@ -190,4 +190,19 @@
   .connection-hint {
     @apply bg-blue-50/80 dark:bg-blue-950/30 p-4 rounded-lg text-sm text-blue-800 dark:text-blue-300;
   }
+
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    .platform-frame-container {
+      min-height: calc(100vh - 60px);
+    }
+    
+    .feature-card {
+      @apply p-3;
+    }
+    
+    .platform-card {
+      @apply p-4;
+    }
+  }
 }
