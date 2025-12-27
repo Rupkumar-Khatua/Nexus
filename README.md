@@ -1,4 +1,4 @@
-# Welcome to your Lovable project
+# Welcome to the Upi of Messaging & Communication 
 
 ## Project info
 
@@ -64,7 +64,7 @@ This project is built with:
 
 Simply open [Lovable](https://lovable.dev/projects/472c0ca3-0042-4d79-b5d3-8ae79a81d6b7) and click on Share -> Publish.
 
-## Can I connect a custom domain to my Lovable project?
+## Can I connect a custom domain?
 
 Yes it is!
 
