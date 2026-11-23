@@ -1,73 +1,45 @@
-# Welcome to the Upi of Messaging & Communication 
+# Nexus — Unified Digital Communication Platform
 
-## Project info
+> One space for your digital conversations—without jumping between scattered chat apps all day.
 
-**URL**: https://lovable.dev/projects/472c0ca3-0042-4d79-b5d3-8ae79a81d6b7
+**Nexus** is an early prototype exploring a unified messaging and communication hub that brings everyday digital communication workflows into a single, focused interface.
 
-## How can I edit this code?
+🔗 **Live Prototype:** [https://rupkumar-khatua.github.io/Nexus/](https://rupkumar-khatua.github.io/Nexus/)
 
-There are several ways of editing your application.
+---
 
-**Use Lovable**
+## Why Nexus?
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/472c0ca3-0042-4d79-b5d3-8ae79a81d6b7) and start prompting.
+Switching across multiple messaging apps and communication tools breaks focus and scatters context. Nexus starts with a straightforward question: **what if your core communication touchpoints felt calmer, faster, and easier to navigate in one place?**
 
-Changes made via Lovable will be committed automatically to this repo.
+* **Early Prototype Status:** Built to test layout, flow, and core concept ideas before expanding into deeper integrations.
+* **Clean Frontend Stack:** Fast, responsive UI built with modern web tooling.
+* **Open to Iteration:** Actively evolving as features and design concepts take shape.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Tech Stack
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+* **Build & Bundler:** Vite
+* **Language:** TypeScript
+* **UI Library:** React
+* **Components & Styling:** shadcn-ui, Tailwind CSS
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Run Locally
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+If you want to run or experiment with the project on your machine, make sure you have [Node.js and npm](https://github.com/nvm-sh/nvm#installing-and-updating) installed first:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+# 1. Clone the repository
+git clone [https://github.com/Rupkumar-Khatua/Nexus.git](https://github.com/Rupkumar-Khatua/Nexus.git)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 2. Enter the project folder
+cd Nexus
+
+# 3. Install dependencies
+npm install
+
+# 4. Start the development server
 npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/472c0ca3-0042-4d79-b5d3-8ae79a81d6b7) and click on Share -> Publish.
-
-## Can I connect a custom domain?
-
-Yes it is!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
